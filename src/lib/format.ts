@@ -154,3 +154,17 @@ export function stripDescription<T extends { description: string }>(product: T):
   const { description: _omit, ...rest } = product;
   return rest;
 }
+
+/**
+ * Turns a Google Drive share link into a direct image URL that an <img> can show
+ * (the file must be shared as "Anyone with the link"). Other URLs and local
+ * paths such as /images/hero.jpg are returned unchanged.
+ */
+export function normalizeImageUrl(raw: string | null | undefined): string {
+  const v = (raw ?? "").trim();
+  if (!v) return "";
+  const m =
+    v.match(/drive\.google\.com\/file\/d\/([\w-]+)/) ||
+    v.match(/drive\.google\.com\/(?:open|uc|thumbnail)\?(?:[^#]*&)?id=([\w-]+)/);
+  return m ? `https://lh3.googleusercontent.com/d/${m[1]}` : v;
+}

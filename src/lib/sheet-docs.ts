@@ -78,4 +78,13 @@ export const SETTING_KEYS_DOC: { key: string; desc: string }[] = [
   { key: "hours", desc: "Opening hours text" },
   { key: "instagram_url", desc: "Instagram profile link" },
   { key: "instagram_handle", desc: "Instagram handle, e.g. @jeettelecomdehradun" },
+  { key: "hero_image", desc: "Main banner photo on the home page. Image link or Google Drive share link. Blank = /images/hero.jpg" },
+  { key: "store_image", desc: "Store interior photo in the Visit Us section. Blank = /images/store.jpg" },
+  { key: "collection_mobiles_image", desc: "Image for the Mobiles category card. Blank = bundled image" },
+  { key: "collection_audio_image", desc: "Image for the Audio category card. Blank = bundled image" },
+  { key: "collection_wearables_image", desc: "Image for the Wearables category card. Blank = bundled image" },
+  { key: "collection_accessories_image", desc: "Image for the Accessories category card. Blank = bundled image" },
+  { key: "gift_1_image", desc: "Photo for the 1st name in free_gifts. Blank = bundled image" },
+  { key: "gift_2_image", desc: "Photo for the 2nd name in free_gifts. Blank = bundled image" },
+  { key: "gift_3_image", desc: "Photo for the 3rd name in free_gifts. Blank = bundled image" },
 ];

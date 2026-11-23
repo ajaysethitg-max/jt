@@ -48,10 +48,10 @@ export function HomeView() {
       <Hero settings={settings} deal={data.deals[0] ?? null} />
       <TrustStrip settings={settings} />
       <DealOfDay deals={data.deals} />
-      <Collections counts={data.counts} />
+      <Collections counts={data.counts} images={settings.collectionImages} />
       <BrandMarquee brands={settings.brands} />
       <FeaturedProducts products={data.featured} />
-      <FreeGifts gifts={settings.freeGifts} />
+      <FreeGifts gifts={settings.freeGifts} images={settings.giftImages} />
       <div className="bg-gradient-to-b from-white to-tq-50/50">
         <FeaturedProducts products={data.bestsellers} title="Dehradun's favourites" eyebrow="Bestsellers this week" />
       </div>

@@ -1,3 +1,4 @@
+import { normalizeImageUrl } from "./format";
 import type { SiteSettings } from "./types";
 
 export const DEFAULT_SETTINGS: SiteSettings = {
@@ -21,6 +22,10 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   financePartners: ["Bajaj Finserv", "IDFC FIRST Bank", "Home Credit"],
   brands: ["Apple", "Samsung", "OPPO", "vivo", "Motorola", "realme", "Xiaomi", "OnePlus"],
   sameDayText: "Same Day Delivery in Dehradun",
+  heroImage: "",
+  storeImage: "",
+  collectionImages: {},
+  giftImages: [],
 };
 
 export const SETTING_KEYS = [
@@ -39,6 +44,15 @@ export const SETTING_KEYS = [
   "finance_partners",
   "brands",
   "same_day_text",
+  "hero_image",
+  "store_image",
+  "collection_mobiles_image",
+  "collection_audio_image",
+  "collection_wearables_image",
+  "collection_accessories_image",
+  "gift_1_image",
+  "gift_2_image",
+  "gift_3_image",
 ] as const;
 
 function splitList(value: string | undefined): string[] | null {
@@ -52,7 +66,7 @@ function splitList(value: string | undefined): string[] | null {
 
 /** Merges stored key/value settings over the defaults. */
 export function resolveSettings(map: Record<string, string | undefined>): SiteSettings {
-  const out: SiteSettings = { ...DEFAULT_SETTINGS, announcements: [...DEFAULT_SETTINGS.announcements], freeGifts: [...DEFAULT_SETTINGS.freeGifts], financePartners: [...DEFAULT_SETTINGS.financePartners], brands: [...DEFAULT_SETTINGS.brands] };
+  const out: SiteSettings = { ...DEFAULT_SETTINGS, announcements: [...DEFAULT_SETTINGS.announcements], freeGifts: [...DEFAULT_SETTINGS.freeGifts], financePartners: [...DEFAULT_SETTINGS.financePartners], brands: [...DEFAULT_SETTINGS.brands], collectionImages: {}, giftImages: [] };
   const pick = (k: string) => (map[k] && map[k]!.trim() ? map[k]!.trim() : null);
   out.siteName = pick("site_name") ?? out.siteName;
   out.logoUrl = pick("logo_url") ?? "";
@@ -69,5 +83,14 @@ export function resolveSettings(map: Record<string, string | undefined>): SiteSe
   out.financePartners = splitList(map.finance_partners) ?? out.financePartners;
   out.brands = splitList(map.brands) ?? out.brands;
   out.sameDayText = pick("same_day_text") ?? out.sameDayText;
+  out.heroImage = normalizeImageUrl(map.hero_image);
+  out.storeImage = normalizeImageUrl(map.store_image);
+  out.collectionImages = {
+    mobiles: normalizeImageUrl(map.collection_mobiles_image),
+    audio: normalizeImageUrl(map.collection_audio_image),
+    wearables: normalizeImageUrl(map.collection_wearables_image),
+    accessories: normalizeImageUrl(map.collection_accessories_image),
+  };
+  out.giftImages = [1, 2, 3].map((n) => normalizeImageUrl(map[`gift_${n}_image`]));
   return out;
 }

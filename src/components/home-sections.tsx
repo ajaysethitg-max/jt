@@ -97,7 +97,7 @@ export function Hero({ settings, deal }: { settings: SiteSettings; deal: Product
 
         <div className="relative mx-auto w-full max-w-md lg:max-w-none">
           <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-white shadow-lift ring-1 ring-ink-100">
-            <SmartImage src="/images/hero.jpg" alt="Pink smartphone, earbuds and smartwatch from Jeet Telecom" fill sizes="(max-width: 1024px) 90vw, 45vw" className="object-cover" priority />
+            <SmartImage src={settings.heroImage || "/images/hero.jpg"} alt="Pink smartphone, earbuds and smartwatch from Jeet Telecom" fill sizes="(max-width: 1024px) 90vw, 45vw" className="object-cover" priority />
           </div>
           <div className="absolute -left-3 bottom-8 flex animate-float items-center gap-3 rounded-2xl bg-white/95 p-3 pr-4 shadow-lift backdrop-blur sm:-left-8">
             <div className="relative h-12 w-12 overflow-hidden rounded-xl">
@@ -252,7 +252,7 @@ const COLLECTIONS = [
   { key: "accessories", title: "Accessories", image: "/images/collections/accessories.jpg", blurb: "Chargers, cases, power banks" },
 ] as const;
 
-export function Collections({ counts }: { counts: Record<string, number> }) {
+export function Collections({ counts, images = {} }: { counts: Record<string, number>; images?: Record<string, string> }) {
   return (
     <section className="py-16 sm:py-20">
       <div className="container-x">
@@ -266,7 +266,7 @@ export function Collections({ counts }: { counts: Record<string, number> }) {
                 href={`/products?c=${c.key}`}
                 className="group relative block aspect-[3/4] overflow-hidden rounded-[1.75rem] bg-ink-100 shadow-soft transition hover:shadow-lift"
               >
-                <SmartImage src={c.image} alt={`${c.title} collection`} fill sizes="(max-width: 1024px) 50vw, 25vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <SmartImage src={images[c.key] || c.image} alt={`${c.title} collection`} fill sizes="(max-width: 1024px) 50vw, 25vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-950/75 via-ink-950/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-5">
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-bp-200">
@@ -347,7 +347,7 @@ const GIFT_META: Record<string, { image: string; note: string }> = {
   headphone: { image: "/images/products/hp-1.jpg", note: "boAt wireless headphones" },
 };
 
-export function FreeGifts({ gifts }: { gifts: string[] }) {
+export function FreeGifts({ gifts, images = [] }: { gifts: string[]; images?: string[] }) {
   const list = (gifts.length ? gifts : ["Trolley Bag", "Noise Smartwatch", "boAt Headphones"]).slice(0, 3);
   const pick = (name: string) =>
     /trolley|bag/i.test(name) ? GIFT_META.trolley : /watch|noise/i.test(name) ? GIFT_META.watch : GIFT_META.headphone;
@@ -365,7 +365,7 @@ export function FreeGifts({ gifts }: { gifts: string[] }) {
               <Reveal key={g} delay={i * 90}>
                 <div className="group relative overflow-hidden rounded-[1.75rem] bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-pink">
                   <div className="relative aspect-[4/3] overflow-hidden bg-ink-50">
-                    <SmartImage src={meta.image} alt={g} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <SmartImage src={images[i] || meta.image} alt={g} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
                     <span className="absolute left-4 top-4 rounded-full bg-bp-500 px-3 py-1 text-xs font-black uppercase tracking-wider text-white shadow-pink">Free</span>
                   </div>
                   <div className="p-5">
@@ -502,7 +502,7 @@ export function StoreVisit({ settings }: { settings: SiteSettings }) {
       <div className="container-x grid gap-10 lg:grid-cols-2 lg:items-center">
         <Reveal>
           <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-lift">
-            <SmartImage src="/images/store.jpg" alt="Jeet Telecom store interior in Dehradun" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
+            <SmartImage src={settings.storeImage || "/images/store.jpg"} alt="Jeet Telecom store interior in Dehradun" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
             <div className="absolute bottom-5 left-5 rounded-2xl bg-white/90 px-4 py-3 shadow-soft backdrop-blur">
               <p className="text-xs font-bold uppercase tracking-[0.16em] text-bp-600">Since 2012</p>
               <p className="font-display text-lg font-semibold text-ink-900">{settings.headline}</p>

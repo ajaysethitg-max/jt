@@ -1,5 +1,5 @@
 import { csvToObjects, toCsv } from "./csv";
-import { endOfDayIst, formatIstDateTime, parseFlexibleDate, startOfDayIst, titleCase } from "./format";
+import { endOfDayIst, formatIstDateTime, normalizeImageUrl, parseFlexibleDate, startOfDayIst, titleCase } from "./format";
 import type { CatalogBundle, Category, DealRowInput, ProductRowInput, ReviewRowInput, SheetName } from "./types";
 
 /* ------------------------------------------------------------------ */
@@ -158,7 +158,7 @@ export function parseProductsCsv(csv: string): { rows: ProductRowInput[]; errors
       badge: o.badge?.trim() || null,
       shortDescription: o.shortdescription || "",
       description: o.description || "",
-      images: list(o.images),
+      images: list(o.images).map(normalizeImageUrl),
       colors: list(o.colors),
       storage: o.storage?.trim() || null,
       screen: o.screen?.trim() || null,

@@ -93,6 +93,11 @@ export interface SiteSettings {
   financePartners: string[];
   brands: string[];
   sameDayText: string;
+  /** Optional image URLs from the Settings tab. Blank = bundled /images file. */
+  heroImage: string;
+  storeImage: string;
+  collectionImages: Record<string, string>;
+  giftImages: string[];
 }
 
 /* ---------- Google Sheet row shapes (shared by demo seed + live sheet) ---------- */
