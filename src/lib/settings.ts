@@ -26,6 +26,8 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   storeImage: "",
   collectionImages: {},
   giftImages: [],
+  deliveryAreas: ["Rajpur Road", "Ballupur", "Jakhan", "Sahastradhara", "GMS Road", "Clement Town", "Patel Nagar", "Subhash Nagar", "Dharampur", "Majra"],
+  establishedYear: "2012",
 };
 
 export const SETTING_KEYS = [
@@ -53,6 +55,8 @@ export const SETTING_KEYS = [
   "gift_1_image",
   "gift_2_image",
   "gift_3_image",
+  "delivery_areas",
+  "since_year",
 ] as const;
 
 function splitList(value: string | undefined): string[] | null {
@@ -66,7 +70,7 @@ function splitList(value: string | undefined): string[] | null {
 
 /** Merges stored key/value settings over the defaults. */
 export function resolveSettings(map: Record<string, string | undefined>): SiteSettings {
-  const out: SiteSettings = { ...DEFAULT_SETTINGS, announcements: [...DEFAULT_SETTINGS.announcements], freeGifts: [...DEFAULT_SETTINGS.freeGifts], financePartners: [...DEFAULT_SETTINGS.financePartners], brands: [...DEFAULT_SETTINGS.brands], collectionImages: {}, giftImages: [] };
+  const out: SiteSettings = { ...DEFAULT_SETTINGS, announcements: [...DEFAULT_SETTINGS.announcements], freeGifts: [...DEFAULT_SETTINGS.freeGifts], financePartners: [...DEFAULT_SETTINGS.financePartners], brands: [...DEFAULT_SETTINGS.brands], collectionImages: {}, giftImages: [], deliveryAreas: [...DEFAULT_SETTINGS.deliveryAreas] };
   const pick = (k: string) => (map[k] && map[k]!.trim() ? map[k]!.trim() : null);
   out.siteName = pick("site_name") ?? out.siteName;
   out.logoUrl = pick("logo_url") ?? "";
@@ -91,6 +95,8 @@ export function resolveSettings(map: Record<string, string | undefined>): SiteSe
     wearables: normalizeImageUrl(map.collection_wearables_image),
     accessories: normalizeImageUrl(map.collection_accessories_image),
   };
+  out.deliveryAreas = splitList(map.delivery_areas) ?? out.deliveryAreas;
+  out.establishedYear = pick("since_year") ?? out.establishedYear;
   out.giftImages = [1, 2, 3].map((n) => normalizeImageUrl(map[`gift_${n}_image`]));
   return out;
 }

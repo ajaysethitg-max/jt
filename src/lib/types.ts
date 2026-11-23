@@ -98,6 +98,8 @@ export interface SiteSettings {
   storeImage: string;
   collectionImages: Record<string, string>;
   giftImages: string[];
+  deliveryAreas: string[];
+  establishedYear: string;
 }
 
 /* ---------- Google Sheet row shapes (shared by demo seed + live sheet) ---------- */

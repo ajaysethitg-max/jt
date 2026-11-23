@@ -86,5 +86,7 @@ export const SETTING_KEYS_DOC: { key: string; desc: string }[] = [
   { key: "collection_accessories_image", desc: "Image for the Accessories category card. Blank = bundled image" },
   { key: "gift_1_image", desc: "Photo for the 1st name in free_gifts. Blank = bundled image" },
   { key: "gift_2_image", desc: "Photo for the 2nd name in free_gifts. Blank = bundled image" },
+  { key: "delivery_areas", desc: "Same-day delivery areas separated by | (shown as chips in Visit Us). Blank = built-in list" },
+  { key: "since_year", desc: "Year the shop started, shown as \"Since 2012\". Blank = 2012" },
   { key: "gift_3_image", desc: "Photo for the 3rd name in free_gifts. Blank = bundled image" },
 ];

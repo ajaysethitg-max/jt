@@ -493,8 +493,6 @@ export function Testimonials({ reviews }: { reviews: Testimonial[] }) {
 
 /* ------------------------------ Store visit ------------------------------ */
 
-const AREAS = ["Rajpur Road", "Ballupur", "Jakhan", "Sahastradhara", "GMS Road", "Clement Town", "Patel Nagar", "Subhash Nagar", "Dharampur", "Majra"];
-
 export function StoreVisit({ settings }: { settings: SiteSettings }) {
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.address)}`;
   return (
@@ -504,13 +502,13 @@ export function StoreVisit({ settings }: { settings: SiteSettings }) {
           <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-lift">
             <SmartImage src={settings.storeImage || "/images/store.jpg"} alt="Jeet Telecom store interior in Dehradun" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
             <div className="absolute bottom-5 left-5 rounded-2xl bg-white/90 px-4 py-3 shadow-soft backdrop-blur">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-bp-600">Since 2012</p>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-bp-600">Since {settings.establishedYear}</p>
               <p className="font-display text-lg font-semibold text-ink-900">{settings.headline}</p>
             </div>
           </div>
         </Reveal>
         <Reveal delay={100}>
-          <SectionHeading align="left" eyebrow="Visit us" title="Dehradun's own one shop for mobile solution" sub="Walk in for the best mobile at the best price, compare phones side by side and walk out with 0% finance, a free gift and a same-day delivery slot if you prefer home delivery." />
+          <SectionHeading align="left" eyebrow="Visit us" title={settings.headline} sub="Walk in for the best mobile at the best price, compare phones side by side and walk out with 0% finance, a free gift and a same-day delivery slot if you prefer home delivery." />
           <ul className="mt-8 space-y-4 text-sm">
             <li className="flex gap-3">
               <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-tq-600" />
@@ -547,7 +545,7 @@ export function StoreVisit({ settings }: { settings: SiteSettings }) {
               <Truck className="h-4 w-4" /> {settings.sameDayText} — coverage
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
-              {AREAS.map((a) => (
+              {settings.deliveryAreas.map((a) => (
                 <span key={a} className="rounded-full bg-bp-50 px-3 py-1 text-xs font-semibold text-bp-700 ring-1 ring-bp-200">{a}</span>
               ))}
             </div>

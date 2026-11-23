@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import { Banknote, Check, CreditCard, Gift, Loader2, Lock, MapPin, Percent, ShoppingBag, Smartphone, Truck, User } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
+import { useCatalog } from "@/lib/catalog-context";
 import { makeOrderNumber, saveOrder } from "@/lib/local-orders";
 import { STATIC_BUILD } from "@/lib/runtime";
 import { cn, formatInr } from "@/lib/format";
@@ -35,7 +36,8 @@ function Card({ title, icon, children }: { title: string; icon: ReactNode; child
   );
 }
 
-export function CheckoutForm({ settings }: { settings: SiteSettings }) {
+export function CheckoutForm({ settings: initialSettings }: { settings: SiteSettings }) {
+  const settings = useCatalog().settings ?? initialSettings;
   const router = useRouter();
   const { items, subtotal, savings, count, clear, hydrated } = useCart();
   const [form, setForm] = useState({
