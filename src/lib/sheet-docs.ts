@@ -1,0 +1,81 @@
+import type { SheetName } from "./types";
+
+export const SHEET_DOCS: Record<SheetName, { title: string; description: string; columns: { name: string; required?: boolean; desc: string }[] }> = {
+  products: {
+    title: "Products",
+    description: "One row per product. Update a row and sync — the product page, price, stock and images update instantly.",
+    columns: [
+      { name: "SKU", required: true, desc: "Unique product code, e.g. IP15-PINK. Used to match rows on re-sync." },
+      { name: "Name", required: true, desc: "Product title shown on cards and the product page." },
+      { name: "Brand", desc: "Apple, Samsung, OPPO, vivo, Motorola, realme, Xiaomi, OnePlus, boAt…" },
+      { name: "Category", desc: "Mobiles · Audio · Wearables · Accessories" },
+      { name: "Price", required: true, desc: "Selling price in ₹ (numbers only, e.g. 62999)" },
+      { name: "MRP", desc: "Strike-through price. Must be ≥ Price to show a discount." },
+      { name: "Stock", desc: "Units available. 0 shows “Out of stock”." },
+      { name: "Badge", desc: "Small label on the card, e.g. Best Seller" },
+      { name: "Short Description", desc: "One-line summary used in search and meta tags." },
+      { name: "Description", desc: "Full description for the product page." },
+      { name: "Images", desc: "Image URLs separated by | — first one is the card image." },
+      { name: "Colors", desc: "Colour options separated by |" },
+      { name: "Storage", desc: "e.g. 128 GB" },
+      { name: "Screen", desc: "Display specification" },
+      { name: "Battery", desc: "Battery specification" },
+      { name: "Processor", desc: "Chip / processor" },
+      { name: "Warranty", desc: "Warranty text" },
+      { name: "Tags", desc: "Search tags separated by |" },
+      { name: "Featured", desc: "TRUE shows the product in “Featured picks” on the home page." },
+      { name: "Slug", desc: "Optional URL slug. Auto-generated from the name if empty." },
+    ],
+  },
+  deals: {
+    title: "Deals",
+    description: "Rows here power “Deals of the Day” and the countdown timer. Set Ends At to control when the clock hits zero.",
+    columns: [
+      { name: "SKU", required: true, desc: "Must match a SKU in the Products sheet." },
+      { name: "Deal Price", required: true, desc: "Discounted price in ₹ — the original price is shown cut through." },
+      { name: "Label", desc: "Badge text, e.g. Deal of the Day or Flash Deal." },
+      { name: "Starts At", desc: "YYYY-MM-DD HH:mm (IST). Blank = today 00:00." },
+      { name: "Ends At", desc: "YYYY-MM-DD HH:mm (IST). Blank = tonight 23:59. Timer counts down to this." },
+      { name: "Active", desc: "TRUE / FALSE" },
+    ],
+  },
+  reviews: {
+    title: "Reviews",
+    description: "Customer reviews shown on product pages and the home page testimonials.",
+    columns: [
+      { name: "SKU", required: true, desc: "Product the review belongs to." },
+      { name: "Author", required: true, desc: "Customer name" },
+      { name: "Rating", required: true, desc: "1 to 5" },
+      { name: "Title", desc: "Short headline" },
+      { name: "Body", desc: "Review text" },
+      { name: "Verified", desc: "TRUE shows “Verified purchase”." },
+      { name: "Date", desc: "YYYY-MM-DD" },
+    ],
+  },
+  settings: {
+    title: "Settings",
+    description: "Key / value pairs that control the logo, announcements, contact details, gifts and finance partners.",
+    columns: [
+      { name: "Key", required: true, desc: "One of the keys listed below." },
+      { name: "Value", required: true, desc: "Text. Use | to separate list items." },
+    ],
+  },
+};
+
+export const SETTING_KEYS_DOC: { key: string; desc: string }[] = [
+  { key: "logo_url", desc: "Image URL for the logo in the header (PNG/SVG/JPG). Blank = built-in logo." },
+  { key: "site_name", desc: "Store name, e.g. Jeet Telecom" },
+  { key: "tagline", desc: "Tagline under the logo, e.g. Best Mobile. Best Price." },
+  { key: "headline", desc: "Headline used in the hero and store section" },
+  { key: "announcement", desc: "Announcement bar messages separated by | (rotates every 4 seconds)" },
+  { key: "same_day_text", desc: "Same day delivery banner text" },
+  { key: "free_gifts", desc: "Free gift names separated by |" },
+  { key: "finance_partners", desc: "Finance partners separated by |" },
+  { key: "brands", desc: "Brand names separated by |" },
+  { key: "phone", desc: "Phone number" },
+  { key: "whatsapp", desc: "WhatsApp number with country code, digits only" },
+  { key: "address", desc: "Store address" },
+  { key: "hours", desc: "Opening hours text" },
+  { key: "instagram_url", desc: "Instagram profile link" },
+  { key: "instagram_handle", desc: "Instagram handle, e.g. @jeettelecomdehradun" },
+];
