@@ -5,6 +5,7 @@ import { CheckoutForm } from "@/components/checkout-form";
 
 export const metadata: Metadata = {
   title: "Checkout",
+  robots: { index: false, follow: false },
   description: "Secure checkout with same day delivery in Dehradun, cash on delivery, UPI and 0% EMI.",
 };
 

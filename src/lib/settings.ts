@@ -73,7 +73,7 @@ export function resolveSettings(map: Record<string, string | undefined>): SiteSe
   const out: SiteSettings = { ...DEFAULT_SETTINGS, announcements: [...DEFAULT_SETTINGS.announcements], freeGifts: [...DEFAULT_SETTINGS.freeGifts], financePartners: [...DEFAULT_SETTINGS.financePartners], brands: [...DEFAULT_SETTINGS.brands], collectionImages: {}, giftImages: [], deliveryAreas: [...DEFAULT_SETTINGS.deliveryAreas] };
   const pick = (k: string) => (map[k] && map[k]!.trim() ? map[k]!.trim() : null);
   out.siteName = pick("site_name") ?? out.siteName;
-  out.logoUrl = pick("logo_url") ?? "";
+  out.logoUrl = normalizeImageUrl(pick("logo_url"));
   out.tagline = pick("tagline") ?? out.tagline;
   out.headline = pick("headline") ?? out.headline;
   out.announcements = splitList(map.announcement) ?? out.announcements;

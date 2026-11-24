@@ -8,7 +8,7 @@ import { useCart } from "@/lib/cart-context";
 import { useCatalog } from "@/lib/catalog-context";
 import { makeOrderNumber, saveOrder } from "@/lib/local-orders";
 import { STATIC_BUILD } from "@/lib/runtime";
-import { cn, formatInr } from "@/lib/format";
+import { cn, formatInr, inlineTagline } from "@/lib/format";
 import type { SiteSettings } from "@/lib/types";
 import { SmartImage } from "./smart-image";
 
@@ -187,7 +187,7 @@ export function CheckoutForm({ settings: initialSettings }: { settings: SiteSett
             ))}
           </ol>
           <h1 className="mt-6 text-center font-display text-4xl font-semibold tracking-tight text-ink-900 sm:text-5xl">Checkout</h1>
-          <p className="mt-2 text-center text-sm text-ink-500">Best Mobile · Best Price · {settings.sameDayText}</p>
+          <p className="mt-2 text-center text-sm text-ink-500">{inlineTagline(settings.tagline)} · {settings.sameDayText}</p>
 
           {!hydrated ? (
             <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_22rem]">

@@ -25,7 +25,7 @@ export function CartDrawer() {
   return (
     <div
       className={cn(
-        "fixed inset-0 z-50 transition-opacity duration-300",
+        "fixed inset-0 z-50 overflow-hidden transition-opacity duration-300",
         isOpen ? "opacity-100" : "pointer-events-none opacity-0",
       )}
       aria-hidden={!isOpen}

@@ -168,3 +168,13 @@ export function normalizeImageUrl(raw: string | null | undefined): string {
     v.match(/drive\.google\.com\/(?:open|uc|thumbnail)\?(?:[^#]*&)?id=([\w-]+)/);
   return m ? `https://lh3.googleusercontent.com/d/${m[1]}` : v;
 }
+
+/** "Best Mobile. Best Price." -> ["Best Mobile.", "Best Price."] */
+export function splitTagline(t: string): string[] {
+  return ((t ?? "").match(/[^.!?]+[.!?]*/g) ?? []).map((p) => p.trim()).filter(Boolean);
+}
+
+/** "Best Mobile. Best Price." -> "Best Mobile · Best Price" */
+export function inlineTagline(t: string): string {
+  return splitTagline(t).map((p) => p.replace(/[.!?]+$/, "")).join(" · ");
+}

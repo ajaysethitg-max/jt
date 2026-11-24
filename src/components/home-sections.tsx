@@ -5,9 +5,10 @@ import { ArrowRight, Check, ChevronRight, CreditCard, Gift, MapPin, Percent, Pho
 import { InstagramIcon } from "./icons";
 import type { SiteSettings, Product, Testimonial } from "@/lib/types";
 import { CATEGORY_LABELS } from "@/lib/types";
-import { cn, discountPct, effectivePrice, formatInr } from "@/lib/format";
+import { cn, discountPct, effectivePrice, formatInr, splitTagline } from "@/lib/format";
 import { AddToCartButton } from "./add-to-cart-button";
 import { Countdown } from "./countdown";
+import { HeroDeals } from "./hero-deals";
 import { ProductCard } from "./product-card";
 import { RatingStars } from "./rating-stars";
 import { Reveal } from "./reveal";
@@ -43,7 +44,10 @@ export function SectionHeading({
 
 /* ------------------------------- Hero ------------------------------- */
 
-export function Hero({ settings, deal }: { settings: SiteSettings; deal: Product | null }) {
+export function Hero({ settings, deals = [] }: { settings: SiteSettings; deals?: Product[] }) {
+  const tag = splitTagline(settings.tagline);
+  const tagFirst = tag[0] ?? "";
+  const tagRest = tag.slice(1).join(" ");
   return (
     <section className="noise relative overflow-hidden bg-gradient-to-br from-tq-50 via-white to-bp-50">
       <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-tq-200/50 blur-3xl" />
@@ -54,9 +58,13 @@ export function Hero({ settings, deal }: { settings: SiteSettings; deal: Product
             <MapPin className="h-3.5 w-3.5" /> {settings.headline}
           </p>
           <h1 className="mt-6 text-[2.75rem] font-semibold leading-[1.02] tracking-tight text-ink-900 sm:text-6xl lg:text-7xl">
-            Best Mobile.
-            <br />
-            <span className="italic text-bp-600">Best Price.</span>
+            {tagFirst}
+            {tagRest && (
+              <>
+                <br />
+                <span className="italic text-bp-600">{tagRest}</span>
+              </>
+            )}
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-600 sm:text-lg">
             Genuine phones and accessories from {settings.brands.join(", ")} — with 0% finance, free gifts with every purchase and the best deal of the city, every single day.
@@ -96,35 +104,12 @@ export function Hero({ settings, deal }: { settings: SiteSettings; deal: Product
         </div>
 
         <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-white shadow-lift ring-1 ring-ink-100">
-            <SmartImage src={settings.heroImage || "/images/hero.jpg"} alt="Pink smartphone, earbuds and smartwatch from Jeet Telecom" fill sizes="(max-width: 1024px) 90vw, 45vw" className="object-cover" priority />
-          </div>
-          <div className="absolute -left-3 bottom-8 flex animate-float items-center gap-3 rounded-2xl bg-white/95 p-3 pr-4 shadow-lift backdrop-blur sm:-left-8">
-            <div className="relative h-12 w-12 overflow-hidden rounded-xl">
-              <SmartImage src="/images/products/watch-1.jpg" alt="" fill sizes="48px" className="object-cover" />
+          {deals.length > 0 ? (
+            <HeroDeals deals={deals} />
+          ) : (
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-white shadow-lift ring-1 ring-ink-100">
+              <SmartImage src={settings.heroImage || "/images/hero.jpg"} alt="Pink smartphone, earbuds and smartwatch from Jeet Telecom" fill sizes="(max-width: 1024px) 90vw, 45vw" className="object-cover" priority />
             </div>
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-wider text-bp-600">Free gift</p>
-              <p className="text-sm font-bold text-ink-900">Noise Smartwatch</p>
-            </div>
-          </div>
-          {deal && (
-            <Link
-              href={`/products/${deal.slug}`}
-              className="absolute -right-2 top-8 flex animate-float items-center gap-3 rounded-2xl bg-ink-900/95 p-3 pr-4 text-white shadow-lift [animation-delay:1.2s] sm:-right-6"
-            >
-              <div className="relative h-12 w-12 overflow-hidden rounded-xl">
-                <SmartImage src={deal.images[0] ?? "/images/hero.jpg"} alt="" fill sizes="48px" className="object-cover" />
-              </div>
-              <div>
-                <p className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-bp-300">
-                  <Zap className="h-3 w-3" fill="currentColor" /> {deal.deal?.label ?? "Deal of the day"}
-                </p>
-                <p className="tnum text-sm font-bold">
-                  {formatInr(effectivePrice(deal))} <span className="text-xs font-semibold text-ink-400 line-through">{formatInr(deal.mrp)}</span>
-                </p>
-              </div>
-            </Link>
           )}
         </div>
       </div>

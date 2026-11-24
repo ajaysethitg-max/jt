@@ -45,7 +45,7 @@ export function HomeView() {
 
   return (
     <>
-      <Hero settings={settings} deal={data.deals[0] ?? null} />
+      <Hero settings={settings} deals={data.deals.slice(0,3)} />
       <TrustStrip settings={settings} />
       <DealOfDay deals={data.deals} />
       <Collections counts={data.counts} images={settings.collectionImages} />

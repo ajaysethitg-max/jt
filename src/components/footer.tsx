@@ -4,7 +4,9 @@ import { useCatalog } from "@/lib/catalog-context";
 import Link from "next/link";
 import { CreditCard, Gift, MapPin, Percent, Phone, ShieldCheck, Truck } from "lucide-react";
 import { InstagramIcon } from "./icons";
+import { inlineTagline } from "@/lib/format";
 import type { SiteSettings } from "@/lib/types";
+import { SmartImage } from "./smart-image";
 
 export function Footer() {
   const { settings } = useCatalog();
@@ -18,7 +20,11 @@ export function Footer() {
       <div className="container-x grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
         <div>
           <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-xl bg-tq-500 font-display text-xl font-bold text-white">J</div>
+            {settings.logoUrl ? (
+              <SmartImage src={settings.logoUrl} alt={settings.siteName} width={44} height={44} className="h-11 w-11 rounded-xl object-cover" />
+            ) : (
+              <div className="grid h-11 w-11 place-items-center rounded-xl bg-tq-500 font-display text-xl font-bold text-white">{settings.siteName.charAt(0)}</div>
+            )}
             <div>
               <p className="font-display text-2xl font-semibold text-white">{settings.siteName}</p>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-tq-300">{settings.tagline}</p>
@@ -118,7 +124,7 @@ export function Footer() {
       <div className="border-t border-ink-800">
         <div className="container-x flex flex-col gap-2 py-5 text-xs text-ink-400 sm:flex-row sm:items-center sm:justify-between">
           <p>© {year} {settings.siteName}, Dehradun. All rights reserved.</p>
-          <p className="font-semibold text-tq-300">Best Mobile · Best Price · Best deal of the city</p>
+          <p className="font-semibold text-tq-300">{inlineTagline(settings.tagline)}</p>
         </div>
       </div>
     </footer>

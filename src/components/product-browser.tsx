@@ -435,7 +435,7 @@ export function ProductBrowser() {
 
       {/* Mobile filter drawer */}
       <div
-        className={cn("fixed inset-0 z-50 transition-opacity duration-300 lg:hidden", drawer ? "opacity-100" : "pointer-events-none opacity-0")}
+        className={cn("fixed inset-0 z-50 overflow-hidden transition-opacity duration-300 lg:hidden", drawer ? "opacity-100" : "pointer-events-none opacity-0")}
         aria-hidden={!drawer}
       >
         <div className="absolute inset-0 bg-ink-950/45" onClick={() => setDrawer(false)} />

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowRight, CheckCircle2, Gift, Loader2, MapPin, Phone, Send, Truck } from "lucide-react";
 import { useCatalog } from "@/lib/catalog-context";
-import { formatInr } from "@/lib/format";
+import { formatInr, inlineTagline } from "@/lib/format";
 import { getLastOrder, hasSentOrder, markOrderSent, orderWhatsAppUrl, type PlacedOrder } from "@/lib/local-orders";
 import { SmartImage } from "./smart-image";
 
@@ -30,7 +30,7 @@ export function OrderSuccess() {
         <div className="mx-auto max-w-3xl rounded-[2rem] bg-white p-10 text-center shadow-lift ring-1 ring-ink-100">
           <Loader2 className="mx-auto h-8 w-8 animate-spin text-tq-600" />
           <p className="mt-4 font-display text-2xl font-semibold text-ink-900">Confirming your order…</p>
-          <p className="mt-2 text-sm text-ink-500">Best Mobile · Best Price · {settings.sameDayText}</p>
+          <p className="mt-2 text-sm text-ink-500">{inlineTagline(settings.tagline)} · {settings.sameDayText}</p>
         </div>
       </div>
     );

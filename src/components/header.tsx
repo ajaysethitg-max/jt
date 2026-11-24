@@ -7,7 +7,7 @@ import { MapPin, Menu, Phone, Search, ShoppingBag, X, Zap } from "lucide-react";
 import { InstagramIcon } from "./icons";
 import { useCart } from "@/lib/cart-context";
 import { useCatalog } from "@/lib/catalog-context";
-import { cn } from "@/lib/format";
+import { cn, inlineTagline } from "@/lib/format";
 import type { SiteSettings } from "@/lib/types";
 import { CartoonStrip } from "./cartoon-strip";
 import { BrandWordmark, LogoMark } from "./logo";
@@ -82,7 +82,7 @@ export function Header() {
             ) : (
               <LogoMark className="h-10 w-10" />
             )}
-            <BrandWordmark siteName={settings.siteName} sub="Best Mobile · Best Price" />
+            <BrandWordmark siteName={settings.siteName} sub={inlineTagline(settings.tagline)} />
           </Link>
 
           {/* Cartoon marquee across the full bar */}

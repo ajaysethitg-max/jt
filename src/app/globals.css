@@ -109,10 +109,13 @@
 
 @layer base {
   html {
+    overflow-x: clip;
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
   }
   body {
+    overflow-x: clip;
+    max-width: 100%;
     @apply bg-paper text-ink-800 font-sans antialiased;
   }
   h1,
