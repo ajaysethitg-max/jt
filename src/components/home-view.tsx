@@ -49,13 +49,13 @@ export function HomeView() {
       <TrustStrip settings={settings} />
       <DealOfDay deals={data.deals} />
       <Collections counts={data.counts} images={settings.collectionImages} />
-      <BrandMarquee brands={settings.brands} />
+      <BrandMarquee brands={settings.brands} logos={settings.brandLogos} />
       <FeaturedProducts products={data.featured} />
       <FreeGifts gifts={settings.freeGifts} images={settings.giftImages} />
       <div className="bg-gradient-to-b from-white to-tq-50/50">
         <FeaturedProducts products={data.bestsellers} title="Dehradun's favourites" eyebrow="Bestsellers this week" />
       </div>
-      <Finance partners={settings.financePartners} />
+      <Finance partners={settings.financePartners} logos={settings.financeLogos} />
       <Testimonials reviews={testimonials} />
       <StoreVisit settings={settings} />
       <InstagramStrip images={data.insta} settings={settings} />

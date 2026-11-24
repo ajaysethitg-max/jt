@@ -99,6 +99,11 @@ export interface SiteSettings {
   collectionImages: Record<string, string>;
   giftImages: string[];
   deliveryAreas: string[];
+  /** Logo URLs in the same order as financePartners / brands; blank = show text. */
+  financeLogos: string[];
+  brandLogos: string[];
+  /** Optional Google Maps link pasted from the Share button. Blank = search by address. */
+  mapUrl: string;
   establishedYear: string;
 }
 

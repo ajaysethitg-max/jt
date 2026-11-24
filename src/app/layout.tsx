@@ -67,6 +67,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               description: settings.headline,
               image: absUrl(settings.heroImage || "/images/hero.jpg"),
               ...(settings.logoUrl ? { logo: absUrl(settings.logoUrl) } : {}),
+              ...(settings.mapUrl ? { hasMap: settings.mapUrl } : {}),
               telephone: settings.phone,
               priceRange: "₹₹",
               foundingDate: settings.establishedYear,

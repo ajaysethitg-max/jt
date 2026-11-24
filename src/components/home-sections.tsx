@@ -9,6 +9,7 @@ import { cn, discountPct, effectivePrice, formatInr, splitTagline } from "@/lib/
 import { AddToCartButton } from "./add-to-cart-button";
 import { Countdown } from "./countdown";
 import { HeroDeals } from "./hero-deals";
+import { mapsLink } from "@/lib/seo";
 import { ProductCard } from "./product-card";
 import { RatingStars } from "./rating-stars";
 import { Reveal } from "./reveal";
@@ -274,7 +275,7 @@ export function Collections({ counts, images = {} }: { counts: Record<string, nu
 
 /* ---------------------------- Brand marquee ---------------------------- */
 
-export function BrandMarquee({ brands }: { brands: string[] }) {
+export function BrandMarquee({ brands, logos = [] }: { brands: string[]; logos?: string[] }) {
   const list = brands.length ? brands : ["Apple", "Samsung"];
   return (
     <section className="border-y border-ink-100 bg-white py-8">
@@ -283,9 +284,13 @@ export function BrandMarquee({ brands }: { brands: string[] }) {
         <div className="marquee-mask mt-5 overflow-hidden">
           <div className="marquee-track flex w-max animate-marquee-slow items-center">
             {[0, 1].map((copy) =>
-              list.map((b) => (
+              list.map((b, i) => (
                 <span key={`${copy}-${b}`} className="flex items-center pr-10">
-                  <span className="font-display text-2xl font-semibold text-ink-400 transition hover:text-tq-700 sm:text-3xl">{b}</span>
+                  {brands.length && logos[i] ? (
+                    <SmartImage src={logos[i]} alt={b} width={160} height={48} className="h-9 w-auto max-w-[9rem] object-contain opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0 sm:h-11" />
+                  ) : (
+                    <span className="font-display text-2xl font-semibold text-ink-400 transition hover:text-tq-700 sm:text-3xl">{b}</span>
+                  )}
                   <span className="ml-10 h-1.5 w-1.5 rounded-full bg-bp-400" />
                 </span>
               )),
@@ -374,7 +379,7 @@ export function FreeGifts({ gifts, images = [] }: { gifts: string[]; images?: st
 
 /* ------------------------------- Finance ------------------------------- */
 
-export function Finance({ partners }: { partners: string[] }) {
+export function Finance({ partners, logos = [] }: { partners: string[]; logos?: string[] }) {
   const list = partners.length ? partners : ["Bajaj Finserv", "IDFC FIRST Bank", "Home Credit"];
   const colors = ["from-tq-500 to-tq-700", "from-bp-400 to-bp-600", "from-ink-700 to-ink-900"];
   return (
@@ -384,7 +389,7 @@ export function Finance({ partners }: { partners: string[] }) {
           <SectionHeading
             align="left"
             eyebrow="No cost EMI"
-            title={<>0% finance available on <span className="italic text-tq-600">Bajaj, IDFC &amp; Home Credit</span></>}
+            title={<>0% finance available on <span className="italic text-tq-600">{list.length > 1 ? `${list.slice(0, -1).join(", ")} & ${list[list.length - 1]}` : list[0]}</span></>}
             sub="Take home the phone you want today and pay in easy monthly instalments with zero interest. Minimal documents, instant approval at the counter."
           />
           <ul className="mt-8 space-y-3">
@@ -410,7 +415,13 @@ export function Finance({ partners }: { partners: string[] }) {
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               {list.map((p, i) => (
                 <div key={p} className="flex items-center gap-3 rounded-2xl bg-white/5 p-3 ring-1 ring-white/10 sm:flex-col sm:items-start">
-                  <span className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-sm font-black", colors[i % colors.length])}>{p.slice(0, 1)}</span>
+                  {partners.length && logos[i] ? (
+                    <span className="grid h-11 w-20 shrink-0 place-items-center rounded-xl bg-white p-1.5 sm:h-12 sm:w-28">
+                      <SmartImage src={logos[i]} alt={p} width={112} height={40} className="max-h-full w-auto max-w-full object-contain" />
+                    </span>
+                  ) : (
+                    <span className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-sm font-black", colors[i % colors.length])}>{p.slice(0, 1)}</span>
+                  )}
                   <p className="text-sm font-bold leading-tight">{p}</p>
                 </div>
               ))}
@@ -479,7 +490,7 @@ export function Testimonials({ reviews }: { reviews: Testimonial[] }) {
 /* ------------------------------ Store visit ------------------------------ */
 
 export function StoreVisit({ settings }: { settings: SiteSettings }) {
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.address)}`;
+  const mapsUrl = mapsLink(settings);
   return (
     <section id="visit" className="py-16 sm:py-20">
       <div className="container-x grid gap-10 lg:grid-cols-2 lg:items-center">

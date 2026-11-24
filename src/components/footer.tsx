@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CreditCard, Gift, MapPin, Percent, Phone, ShieldCheck, Truck } from "lucide-react";
 import { InstagramIcon } from "./icons";
 import { inlineTagline } from "@/lib/format";
+import { mapsLink } from "@/lib/seo";
 import type { SiteSettings } from "@/lib/types";
 import { SmartImage } from "./smart-image";
 
@@ -12,7 +13,7 @@ export function Footer() {
   const { settings } = useCatalog();
   const [year, setYear] = useState(2026);
   useEffect(() => setYear(new Date().getFullYear()), []);
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.address)}`;
+  const mapsUrl = mapsLink(settings);
   const waUrl = `https://wa.me/${settings.whatsapp.replace(/\D/g, "")}`;
 
   return (

@@ -26,6 +26,9 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   storeImage: "",
   collectionImages: {},
   giftImages: [],
+  financeLogos: [],
+  brandLogos: [],
+  mapUrl: "",
   deliveryAreas: ["Rajpur Road", "Ballupur", "Jakhan", "Sahastradhara", "GMS Road", "Clement Town", "Patel Nagar", "Subhash Nagar", "Dharampur", "Majra"],
   establishedYear: "2012",
 };
@@ -56,8 +59,17 @@ export const SETTING_KEYS = [
   "gift_2_image",
   "gift_3_image",
   "delivery_areas",
+  "finance_logos",
+  "brand_logos",
+  "map_url",
   "since_year",
 ] as const;
+
+/** Like splitList but keeps blank slots, so logos line up with their names. */
+function splitSlots(value: string | undefined): string[] {
+  if (!value) return [];
+  return value.split("|").map((s) => normalizeImageUrl(s.trim()));
+}
 
 function splitList(value: string | undefined): string[] | null {
   if (!value) return null;
@@ -70,7 +82,7 @@ function splitList(value: string | undefined): string[] | null {
 
 /** Merges stored key/value settings over the defaults. */
 export function resolveSettings(map: Record<string, string | undefined>): SiteSettings {
-  const out: SiteSettings = { ...DEFAULT_SETTINGS, announcements: [...DEFAULT_SETTINGS.announcements], freeGifts: [...DEFAULT_SETTINGS.freeGifts], financePartners: [...DEFAULT_SETTINGS.financePartners], brands: [...DEFAULT_SETTINGS.brands], collectionImages: {}, giftImages: [], deliveryAreas: [...DEFAULT_SETTINGS.deliveryAreas] };
+  const out: SiteSettings = { ...DEFAULT_SETTINGS, announcements: [...DEFAULT_SETTINGS.announcements], freeGifts: [...DEFAULT_SETTINGS.freeGifts], financePartners: [...DEFAULT_SETTINGS.financePartners], brands: [...DEFAULT_SETTINGS.brands], collectionImages: {}, giftImages: [], deliveryAreas: [...DEFAULT_SETTINGS.deliveryAreas], financeLogos: [], brandLogos: [] };
   const pick = (k: string) => (map[k] && map[k]!.trim() ? map[k]!.trim() : null);
   out.siteName = pick("site_name") ?? out.siteName;
   out.logoUrl = normalizeImageUrl(pick("logo_url"));
@@ -86,6 +98,9 @@ export function resolveSettings(map: Record<string, string | undefined>): SiteSe
   out.freeGifts = splitList(map.free_gifts) ?? out.freeGifts;
   out.financePartners = splitList(map.finance_partners) ?? out.financePartners;
   out.brands = splitList(map.brands) ?? out.brands;
+  out.financeLogos = splitSlots(map.finance_logos);
+  out.brandLogos = splitSlots(map.brand_logos);
+  out.mapUrl = /^https?:\/\//i.test(pick("map_url") ?? "") ? pick("map_url")! : "";
   out.sameDayText = pick("same_day_text") ?? out.sameDayText;
   out.heroImage = normalizeImageUrl(map.hero_image);
   out.storeImage = normalizeImageUrl(map.store_image);

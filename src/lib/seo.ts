@@ -26,3 +26,8 @@ export function clip(text: string, max = 158): string {
   const cut = t.slice(0, max - 1);
   return `${cut.slice(0, cut.lastIndexOf(" ") > 80 ? cut.lastIndexOf(" ") : cut.length)}…`;
 }
+
+/** Link used by "Get directions": the pasted Google Maps link, else a search by address. */
+export function mapsLink(s: { mapUrl: string; address: string }): string {
+  return s.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.address)}`;
+}
