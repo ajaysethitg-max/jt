@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [master]
+    branches: [main, master]
   workflow_dispatch:
   schedule:
     # 00:00 IST every day — refreshes prerendered pages and the baked deal timers
@@ -39,20 +39,33 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Project sites live at https://user.github.io/<repo>/ ; user sites at the root.
-      - name: Detect base path
+      # Project sites live at https://user.github.io/<repo>/ ; user sites and custom
+      # domains at the root. Set the repository variable CUSTOM_DOMAIN (e.g. jeettelecom.in)
+      # once you buy a domain.
+      - name: Detect base path and site address
         id: cfg
         run: |
-          if [[ "${{ github.event.repository.name }}" == *.github.io ]]; then
+          repo="${{ github.event.repository.name }}"
+          owner="$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
+          domain="${{ vars.CUSTOM_DOMAIN }}"
+          domain="${domain#https://}"; domain="${domain#http://}"; domain="${domain%/}"
+          if [[ -n "$domain" ]]; then
             echo "base=" >> "$GITHUB_OUTPUT"
+            echo "site=https://${domain}" >> "$GITHUB_OUTPUT"
+          elif [[ "$repo" == *.github.io ]]; then
+            echo "base=" >> "$GITHUB_OUTPUT"
+            echo "site=https://${repo}" >> "$GITHUB_OUTPUT"
           else
-            echo "base=/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"
+            echo "base=/${repo}" >> "$GITHUB_OUTPUT"
+            echo "site=https://${owner}.github.io/${repo}" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Build static site
         env:
           NEXT_PUBLIC_STATIC_BUILD: "true"
           NEXT_PUBLIC_BASE_PATH: ${{ steps.cfg.outputs.base }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.cfg.outputs.site }}
+          NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
           # Live catalogue: your Google Sheet (recommended) or the CSV files in /catalog.
           NEXT_PUBLIC_GOOGLE_SHEET_ID: ${{ vars.NEXT_PUBLIC_GOOGLE_SHEET_ID }}
           NEXT_PUBLIC_GOOGLE_SHEETS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_SHEETS_API_KEY }}
