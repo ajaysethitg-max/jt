@@ -416,8 +416,8 @@ export function Finance({ partners, logos = [] }: { partners: string[]; logos?: 
               {list.map((p, i) => (
                 <div key={p} className="flex items-center gap-3 rounded-2xl bg-white/5 p-3 ring-1 ring-white/10 sm:flex-col sm:items-start">
                   {partners.length && logos[i] ? (
-                    <span className="grid h-11 w-20 shrink-0 place-items-center rounded-xl bg-white p-1.5 sm:h-12 sm:w-28">
-                      <SmartImage src={logos[i]} alt={p} width={112} height={40} className="max-h-full w-auto max-w-full object-contain" />
+                    <span className="relative block h-11 w-20 shrink-0 overflow-hidden rounded-xl bg-white p-1.5 sm:h-12 sm:w-28">
+                      <SmartImage src={logos[i]} alt={p} width={112} height={40} className="h-full w-full object-contain" />
                     </span>
                   ) : (
                     <span className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-sm font-black", colors[i % colors.length])}>{p.slice(0, 1)}</span>
